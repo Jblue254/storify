@@ -129,13 +129,12 @@ storify/
 
 ## Future Enhancements
 
-**Persistent Data Hydration:** Integrate Local Storage or a real-time database to persist shopping cart items across browser reloads.
-**Payment Gateway Integration:** Implement secure mock checkout workflows using Stripe or PayPal SDK integration.
-**Live Product Search & Filtering:** Add a high-performance search engine allowing users to instantaneously query products by title, price point, or category taxonomy.
-**Order Tracking & History Dashboard:** Build an interactive user profile space tracking historical order status metrics and package delivery states.
-**Admin Inventory Control Console:** Create a protected portal area for store managers to add, update, or deprecate marketplace product listings directly via a secure UI.
-**Image Optimization Performance Layer:** Implement smart lazy-loading and dynamic image transformation handling for rapid layout content delivery networks.
-
+* **Persistent Data Hydration:** 
+* **Payment Gateway Integration:** Implement secure mock checkout workflows using Stripe or PayPal SDK integration.
+* **Live Product Search & Filtering:** Add a high-performance search engine allowing users to instantaneously query products by title, price point, or category taxonomy.
+* **Order Tracking & History Dashboard:** 
+* **Admin Inventory Control Console:**
+* **Image Optimization Performance Layer:** 
 ---
 
 ## Contributing
