@@ -1,4 +1,5 @@
 import { Button as ButtonPrimitive } from "@base-ui/react/button"
+import { Slot } from "@radix-ui/react-slot"
 import { cva } from "class-variance-authority";
 
 import { cn } from "@/lib/utils"
@@ -44,13 +45,17 @@ function Button({
   className,
   variant = "default",
   size = "default",
+  asChild = false, // 👈 1. Destructure asChild so it doesn't leak down
   ...props
 }) {
+  // 2. Wrap the core slot layout handler dynamically
   return (
     <ButtonPrimitive
       data-slot="button"
+      render={asChild ? <Slot /> : undefined} 
       className={cn(buttonVariants({ variant, size, className }))}
-      {...props} />
+      {...props} 
+    />
   );
 }
 
