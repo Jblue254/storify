@@ -1,59 +1,35 @@
 // src/App.jsx
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-
-// Components
-import Navbar from "./components/Navbar";
-import ProductList from "./components/ProductList";
-import ProductDetail from "./components/ProductDetail";
-import Checkout from "./components/Checkout";
-import CheckoutSuccess from "./components/CheckoutSuccess";
-import ProtectedRoute from "./components/ProtectedRoute"; // <-- IMPORT SECURITY WRAPPER
-import AdminRoute from "./components/AdminRoute";
-import AdminLayout from "./layouts/AdminLayout";
-import Footer from "./components/Footer";
-
-// Pages
-import { Login } from "./pages/Login";
-import { Register } from "./pages/Register";
-import AdminOverview from "./pages/AdminOverview";
-import AdminOrders from "./pages/AdminOrders";
-import AdminProducts from "./pages/AdminProducts";
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import ProductList from './components/ProductList';      // Your existing catalog grid
+import { Login } from './pages/Login';                  // Your existing login card
+import { Cart } from './pages/Cart';                    // Your existing shopping cart
+import { ProductDetail } from './pages/ProductDetail';  // 👈 1. Import ProductDetail page
+import { Checkout } from './pages/Checkout';            // 👈 2. Import Checkout page
+import Navbar from './components/Navbar';
 
 function App() {
   return (
-    <>
-      <Router>
-        <Navbar />
-        
+    <Router>
+      <Navbar />
+      <main className="min-h-screen bg-background">
         <Routes>
-          {/* Public Storefront Routes */}
-          <Route path='/' element={<ProductList />} />
-          <Route path='/login' element={<Login />} />
-          <Route path='/register' element={<Register />} />
-          <Route path="/product/:productId" element={<ProductDetail />} />
-          <Route path="/success" element={<CheckoutSuccess />} />
-
-          {/* PROTECTED Checkout Route (Required by Project Rubric) */}
-          <Route 
-            path="/checkout" 
-            element={
-              <ProtectedRoute>
-                <Checkout />
-              </ProtectedRoute>
-            } 
-          />
-
-          {/* Nested Admin Routes */}
-          <Route path="/admin" element={<AdminRoute><AdminLayout /></AdminRoute>}>
-            <Route index element={<AdminOverview />} />
-            <Route path="orders" element={<AdminOrders />} />
-            <Route path="products" element={<AdminProducts />} />
-          </Route>
+          {/* Main Catalog Storefront Grid */}
+          <Route path="/" element={<ProductList />} />
+          
+          {/* Dynamic Item Detail Pages */}
+          <Route path="/product/:productId" element={<ProductDetail />} /> {/* 👈 3. Dynamic route pattern */}
+          
+          {/* Customer Basket Overview */}
+          <Route path="/cart" element={<Cart />} />
+          
+          {/* Secure Transaction Completion Terminal */}
+          <Route path="/checkout" element={<Checkout />} /> {/* 👈 4. Checkout path hook */}
+          
+          {/* Authentication Access Panel */}
+          <Route path="/login" element={<Login />} />
         </Routes>
-
-        {/* <Footer /> */}
-      </Router>
-    </>
+      </main>
+    </Router>
   );
 }
 

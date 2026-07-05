@@ -1,13 +1,16 @@
-import { defineConfig } from 'vite'
-import react from '@vitejs/plugin-react'
-import tailwindcss from '@tailwindcss/vite'
+// vite.config.js
+import { defineConfig } from "vite"
+import react from "@vitejs/plugin-react"
+import { fileURLToPath } from "node:url" // 👈 Need this helper to resolve local URLs
+import path from "node:path"             // 👈 Use the explicit node: prefix for stability
 
-// https://vite.dev/config/
+const __dirname = path.dirname(fileURLToPath(import.meta.url)) // 👈 Manually create __dirname safely
+
 export default defineConfig({
-  plugins: [react(),tailwindcss()],
+  plugins: [react()],
   resolve: {
     alias: {
       "@": path.resolve(__dirname, "./src"),
     },
   },
-});
+})
