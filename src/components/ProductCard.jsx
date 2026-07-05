@@ -1,17 +1,17 @@
 // src/components/ProductCard.jsx
 import { Link } from "react-router-dom";
-import { useCart } from "../context/CartContext";
+import { useCart } from "../context/CartContext"; 
 
 function ProductCard({ id, name, price, category, description, image }) {
-  // Pull the global dispatch function from your Context provider
+  // Pull the global dispatch function cleanly from your hook
   const { addToCart } = useCart();
 
-  // Create a clean item object payload matching what the cart expects
   const handleAddToCart = (e) => {
-    // Prevent the event from bubbling up and clicking the parent card links
+    // 1. Prevent the event from bubbling up and triggering the parent <Link> navigation
     e.preventDefault();
     e.stopPropagation();
     
+    // 2. Add the item package to the global cart state exactly once
     addToCart({ id, title: name, price, image, category });
   };
 
