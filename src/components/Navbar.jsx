@@ -1,13 +1,18 @@
 // src/components/Navbar.jsx
+import React, { useContext } from 'react'; // 👈 Using standard useContext
+import { CartContext } from '@/context/CartContext'; // 👈 Cleaned up alias path to use your main context
 import { Link } from 'react-router-dom';
-import { useCart } from '../context/CartContext';
 import { useAuth } from '../context/AuthContext';
 import { Button } from '@/components/ui/button';
-import { ShoppingCart, LogOut, User } from 'lucide-react'; // Added icons for cleaner UI
+import { ShoppingCart, LogOut, User } from 'lucide-react'; 
 
 export default function Navbar() {
-  const { cartCount } = useCart();
+  // 1. Consume the raw cart array directly from your context provider
+  const { cart } = useContext(CartContext);
   const { user, logout } = useAuth();
+
+  // 2. Safely compute total items quantity sum inline to drive your badge bubble
+  const cartCount = cart ? cart.reduce((total, item) => total + (item.quantity || 1), 0) : 0;
 
   return (
     <nav className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">

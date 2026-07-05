@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
-import { useCart } from '@/context/CartContext';
+// src/pages/Checkout.jsx
+import React, { useState, useContext } from 'react'; // 👈 Added useContext
+import { CartContext } from '@/context/CartContext'; // 👈 Swapped useCart for CartContext
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -8,10 +9,16 @@ import { Loader2, CreditCard, CheckCircle2 } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
 export const Checkout = () => {
-  const { cart, cartSubtotal, clearCart } = useCart();
+  // 1. Consume your custom context layout properties directly
+  const { cart, clearCart } = useContext(CartContext);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isCompleted, setIsCompleted] = useState(false);
   
+  // 2. Safely derive total balance summaries inline
+  const cartSubtotal = cart.reduce(
+    (sum, item) => sum + (item.price * (item.quantity || 1)), 0
+  );
+
   // Controlled form values platform
   const [formData, setFormData] = useState({
     fullName: '',
@@ -26,13 +33,11 @@ export const Checkout = () => {
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
-    // Dynamically wipe out error flags once a user types
     if (errors[e.target.name]) {
       setErrors({ ...errors, [e.target.name]: '' });
     }
   };
 
-  // Validations schema mapping
   const validateForm = () => {
     const newErrors = {};
     if (!formData.fullName.trim()) newErrors.fullName = 'Full name is required';
@@ -57,10 +62,9 @@ export const Checkout = () => {
     setIsSubmitting(true);
 
     try {
-      // Simulated gateway submission transaction delay
       await new Promise((resolve) => setTimeout(resolve, 2000));
       setIsCompleted(true);
-      clearCart(); // Safely reset basket on transactional success
+      clearCart(); 
     } catch (err) {
       console.error('Payment gateway failure:', err);
     } finally {
@@ -68,7 +72,6 @@ export const Checkout = () => {
     }
   };
 
-  // Order Success Layout Shield
   if (isCompleted) {
     return (
       <div className="flex min-h-[70vh] flex-col items-center justify-center p-4 text-center">
@@ -86,7 +89,6 @@ export const Checkout = () => {
     );
   }
 
-  // Fallback state if cart gets accessed blankly
   if (cart.length === 0) {
     return (
       <div className="flex min-h-[60vh] flex-col items-center justify-center p-4 text-center">
@@ -101,7 +103,6 @@ export const Checkout = () => {
 
   return (
     <div className="container mx-auto grid grid-cols-1 gap-8 px-4 py-8 lg:grid-cols-12 lg:py-12">
-      {/* Shipping details input fields form wrapper */}
       <div className="lg:col-span-7">
         <Card className="shadow-md border-muted">
           <CardHeader>
@@ -168,7 +169,6 @@ export const Checkout = () => {
         </Card>
       </div>
 
-      {/* Condensed Sidebar Summary Review Panel */}
       <div className="lg:col-span-5">
         <Card className="bg-muted/40 border-muted sticky top-24">
           <CardHeader>

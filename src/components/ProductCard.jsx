@@ -1,10 +1,11 @@
 // src/components/ProductCard.jsx
 import { Link } from "react-router-dom";
-import { useCart } from "../context/CartContext"; 
+import { useContext } from "react"; // 👈 Used to grab the context directly
+import { CartContext } from "@/context/CartContext";
 
 function ProductCard({ id, name, price, category, description, image }) {
-  // Pull the global dispatch function cleanly from your hook
-  const { addToCart } = useCart();
+  // Pull the global dispatch function directly via React's built-in hook
+  const { addToCart } = useContext(CartContext); 
 
   const handleAddToCart = (e) => {
     // 1. Prevent the event from bubbling up and triggering the parent <Link> navigation

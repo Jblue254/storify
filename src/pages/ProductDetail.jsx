@@ -1,15 +1,18 @@
 // src/pages/ProductDetail.jsx
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react'; // 👈 Added useContext
 import { useParams, Link } from 'react-router-dom';
-import { useCart } from '@/context/CartContext';
+import { CartContext } from '@/context/CartContext';           // 👈 Swapped useCart for CartContext
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
+
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Loader2, ArrowLeft, ShoppingCart, ShieldCheck, Truck, RotateCcw } from 'lucide-react';
 
 export const ProductDetail = () => {
   const { productId } = useParams();
-  const { addToCart } = useCart();
+  
+  // 👈 Now using standard React useContext hook architecture cleanly
+  const { addToCart } = useContext(CartContext); 
   
   const [product, setProduct] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -24,7 +27,6 @@ export const ProductDetail = () => {
         return resp.json();
       })
       .then((data) => {
-        // Enforce shared matching data type alignment checks
         const foundProduct = data.find((p) => String(p.id) === String(productId));
         if (!foundProduct) throw new Error("Requested merchandise record does not exist.");
         
@@ -47,7 +49,6 @@ export const ProductDetail = () => {
       category: product.category
     });
 
-    // Flash a temporary visual confirmation banner
     setAddedMessage(true);
     setTimeout(() => setAddedMessage(false), 2000);
   };
@@ -75,13 +76,11 @@ export const ProductDetail = () => {
 
   return (
     <div className="container mx-auto px-4 py-8 lg:py-12">
-      {/* Return Navigation Anchor Link */}
       <Link to="/" className="inline-flex items-center text-sm font-medium text-muted-foreground hover:text-foreground mb-8 transition-colors">
         <ArrowLeft className="mr-2 h-4 w-4" /> Back to store grid
       </Link>
 
       <div className="grid grid-cols-1 gap-8 lg:grid-cols-12 mb-12">
-        {/* Left Side Gallery Frame Screen Wrapper */}
         <div className="lg:col-span-6 flex items-center justify-center bg-white p-8 border rounded-2xl aspect-square max-h-[500px]">
           <img 
             src={product.image} 
@@ -90,7 +89,6 @@ export const ProductDetail = () => {
           />
         </div>
 
-        {/* Right Side Primary Transaction Summary Board Area */}
         <div className="lg:col-span-6 flex flex-col justify-between py-2">
           <div>
             <span className="text-xs font-bold tracking-wider uppercase bg-secondary px-3 py-1 rounded-full text-secondary-foreground">
@@ -110,7 +108,6 @@ export const ProductDetail = () => {
           </div>
 
           <div className="space-y-4">
-            {/* Added confirmation banner alert */}
             {addedMessage && (
               <div className="bg-emerald-50 border border-emerald-200 text-emerald-700 text-xs font-semibold px-4 py-2 rounded-lg animate-in fade-in slide-in-from-bottom-2">
                 ✓ Added successfully! Your checkout cart has been updated.
@@ -121,7 +118,6 @@ export const ProductDetail = () => {
               <ShoppingCart className="mr-2 h-5 w-5" /> Add to Shopping Cart
             </Button>
 
-            {/* Reassurance value propositions footer layout row */}
             <div className="grid grid-cols-3 gap-2 border-t pt-4 text-[11px] font-medium text-muted-foreground mt-4 text-center">
               <div className="flex flex-col items-center gap-1">
                 <Truck size={16} className="text-primary" />
@@ -140,7 +136,6 @@ export const ProductDetail = () => {
         </div>
       </div>
 
-      {/* Segmented Auxiliary Information Subsystem (Project Tabs Requirement) */}
       <Tabs defaultValue="overview" className="w-full border rounded-xl p-6 bg-card">
         <TabsList className="grid w-full grid-cols-3 max-w-[400px] mb-6">
           <TabsTrigger value="overview">Overview</TabsTrigger>

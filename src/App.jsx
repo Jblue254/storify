@@ -2,9 +2,10 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import ProductList from './components/ProductList';      // Your existing catalog grid
 import { Login } from './pages/Login';                  // Your existing login card
-import { Cart } from './pages/Cart';                    // Your existing shopping cart
-import { ProductDetail } from './pages/ProductDetail';  // 👈 1. Import ProductDetail page
-import { Checkout } from './pages/Checkout';            // 👈 2. Import Checkout page
+import Cart from './components/Cart';
+                
+import { ProductDetail } from './pages/ProductDetail';  //  1. Import ProductDetail page
+import { Checkout } from './pages/Checkout';            //  2. Import Checkout page
 import Navbar from './components/Navbar';
 
 function App() {
